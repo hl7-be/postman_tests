@@ -16,9 +16,9 @@ const parametersForTestRun = {
           'template': 'templates/htmlreqres.hbs', // this is optional,
           'export': 'verbose-report.html'
         }
-    },        
+    }//,        
 
-    iterationData: path.join(__dirname, 'rundata.csv') //your data file
+//    iterationData: path.join(__dirname, 'rundata.csv') //your data file
    
 };
 
