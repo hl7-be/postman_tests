@@ -1,6 +1,5 @@
-npm install -g newman
-npm install async newman-reporter-html newman-reporter-htmlextra 
-
+npm install -g newman newman-reporter-htmlextra
+npm install async newman-reporter-html 
 
 rem npm install newman
 rem npm i async
