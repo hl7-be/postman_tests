@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "a2c38468-3e08-483f-beb2-29cd21ee9918",
+		"name": "VitalinkAutomation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Setup",
+			"item": [
+				{
+					"name": "1. Get metadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "identifier",
+									"value": "https://www.ehealth.fgov.be/standards/fhir/NamingSystem/ssin|73301217148",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/metadata",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"metadata"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Basic",
+			"item": [
+				{
+					"name": "Search patient by ssin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"console.log(jsonData)\r",
+									"if (jsonData.entry[0].resource.id !== null) { //pm.response.code == 200\r",
+									"    pm.environment.set('patient_id', jsonData.entry[0].resource.id);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"user-agent": true,
+							"accept-encoding": true,
+							"connection": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/Patient?identifier=https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin1}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"console.log(jsonData)\r",
+									"if (jsonData.entry[0].resource.id !== null) { //pm.response.code == 200\r",
+									"    pm.environment.set('patient_id', jsonData.entry[0].resource.id);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true,
+							"user-agent": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "identifier",
+									"value": "https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin1}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/Patient/_search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Patient",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Allergies for patient by SSIN",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"connection": true,
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "If-Match",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/Patient?identifier=https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin1}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Configurable",
+			"item": [
+				{
+					"name": "Confgurable",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"connection": true,
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "If-Match",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{body}}"
+						},
+						"url": {
+							"raw": "{{host}}/{{url}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

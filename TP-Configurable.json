@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "a2c38468-3e08-483f-beb2-29cd21ee9918",
+		"name": "VitalinkAutomation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Configurable",
+			"item": [
+				{
+					"name": "Confgurable",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"connection": true,
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "{{method}}",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{body}}"
+						},
+						"url": {
+							"raw": "{{host}}/{{url}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
