@@ -6,7 +6,7 @@ const PARALLEL_RUN_COUNT = 1
 
 const parametersForTestRun = {
     collection: path.join(__dirname, 'Automated_tests.json'), // your collection
-    folder: 'Basic',
+//    folder: 'Basic',
     environment: path.join(__dirname, 'ENV-mvp.fhir.int.json'), //your env
 //    reporters: ['htmlextra', 'html', 'cli', 'json'],
     reporters: ['html', 'cli'],
