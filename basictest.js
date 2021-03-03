@@ -13,7 +13,7 @@ const parametersForTestRun = {
     delayRequest:50,
     reporter: {
         htmlextra: {
-          'template': 'templates/htmlreqres.hbs', // this is optional,
+//          'template': 'templates/htmlreqres.hbs', // this is optional,
           'export': 'testreport.html'
         }
     }//,        
