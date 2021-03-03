@@ -17,7 +17,6 @@ const parametersForTestRun = {
           'export': 'testreport.html'
         }
     }//,        
-
 //    iterationData: path.join(__dirname, 'rundata.csv') //your data file
    
 };
