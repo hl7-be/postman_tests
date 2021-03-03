@@ -1,1 +1,1 @@
-node start loadtest.js
+node start basictests.js
