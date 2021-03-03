@@ -9,12 +9,12 @@ const parametersForTestRun = {
 //    folder: 'Basic',
     environment: path.join(__dirname, 'ENV-mvp.fhir.int.json'), //your env
 //    reporters: ['htmlextra', 'html', 'cli', 'json'],
-    reporters: ['html', 'cli'],
+    reporters: ['htmlextra', 'cli'],
     delayRequest:50,
     reporter: {
-        html: {
+        htmlextra: {
           'template': 'templates/htmlreqres.hbs', // this is optional,
-          'export': 'verbose-report.html'
+          'export': 'testreport.html'
         }
     }//,        
 
