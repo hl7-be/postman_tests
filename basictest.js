@@ -5,19 +5,20 @@ const newman = require('newman')
 const PARALLEL_RUN_COUNT = 1
 
 const parametersForTestRun = {
-    collection: path.join(__dirname, 'Automated_tests.json'), // your collection
+    collection: path.join(__dirname, 'TestPlans/Automated_tests.json'), // your collection
 //    folder: 'Basic',
-    environment: path.join(__dirname, 'ENV-mvp.fhir.int.json'), //your env
+    environment: path.join(__dirname, 'Environments/mvp.fhir.int.json'), //your env
 //    reporters: ['htmlextra', 'html', 'cli', 'json'],
-    reporters: ['htmlextra', 'cli'],
+    reporters: ['htmlextra', 'cli', 'json'],
     delayRequest:50,
     reporter: {
         htmlextra: {
 //          'template': 'templates/htmlreqres.hbs', // this is optional,
-          'export': 'testreport.html'
+          'template': 'templates/template-default-colored.hbs', // this is optional,
+//          'export': 'testreport.html'
         }
     }//,        
-//    iterationData: path.join(__dirname, 'rundata.csv') //your data file
+//    iterationData: path.join(__dirname, 'ssins.csv') //your data file
    
 };
 

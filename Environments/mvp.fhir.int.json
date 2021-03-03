@@ -49,21 +49,26 @@
 		},
 		{
 			"key": "ssin1",
-			"value": "",
+			"value": "88091817829",
 			"enabled": true
 		},
 		{
 			"key": "ssin2",
-			"value": "",
+			"value": "56011623778",
 			"enabled": true
 		},
 		{
 			"key": "allergy_id",
 			"value": "",
 			"enabled": true
+		},
+		{
+			"key": "ssin",
+			"value": "",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2021-02-27T07:36:41.376Z",
+	"_postman_exported_at": "2021-03-03T21:32:29.520Z",
 	"_postman_exported_using": "Postman/7.36.5"
 }
