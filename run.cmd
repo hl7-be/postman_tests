@@ -1,1 +1,1 @@
-node start basictests.js
+node start .\basictests.js
