@@ -477,10 +477,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.expect(response=201);\r",
-									"\r",
-									""
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
