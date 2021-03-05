@@ -1,1 +1,2 @@
 node .\basictest.js
+pause
