@@ -421,6 +421,152 @@
 					},
 					"response": []
 				}
+			],
+			"description": "This scenario is about Requirement / **Acceptance Criteria XX**,that defines that No patient can have two allergies with the same code."
+		},
+		{
+			"name": "Conditional delete",
+			"item": [
+				{
+					"name": "Delete allergy Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/AllergyIntolerance/{{allergy_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"AllergyIntolerance",
+								"{{allergy_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "T001",
+			"item": [
+				{
+					"name": "Create new allergy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.expect(response=201);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/fhir+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\" : \"AllergyIntolerance\",\r\n  \"meta\" : {\r\n    \"profile\" : [\r\n      \"https://www.ehealth.fgov.be/standards/fhir/StructureDefinition/be-allergyintolerance\"\r\n    ]\r\n  },\r\n  \"clinicalStatus\" : {\r\n    \"coding\" : [\r\n      {\r\n        \"system\" : \"http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical\",\r\n        \"code\" : \"active\",\r\n        \"display\" : \"Active\"\r\n      }\r\n    ]\r\n  },\r\n  \"verificationStatus\" : {\r\n    \"coding\" : [\r\n      {\r\n        \"system\" : \"http://terminology.hl7.org/CodeSystem/allergyintolerance-verification\",\r\n        \"code\" : \"unconfirmed\"\r\n      }\r\n    ]\r\n  },\r\n  \"type\" : \"allergy\",\r\n  \"category\" : [\r\n    \"food\"\r\n  ],\r\n  \"code\" : {\r\n    \"coding\" : [\r\n      {\r\n        \"system\" : \"http://snomed.info/sct\",\r\n        \"code\" : \"735215001\",\r\n        \"display\" : \"Apple (substance)\"\r\n      }\r\n    ],\r\n    \"text\" : \"Allergic to apples - Test 4.6\"\r\n  },\r\n  \"patient\" : {\r\n    \"reference\" : \"Patient?identifier=https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin1}}\"\r\n  },\r\n  \"recordedDate\" : \"2014-10-09T14:58:00+11:00\",\r\n  \"recorder\" : {\r\n    \"reference\" : \"Practitioner?identifier=https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin2}}\"\r\n  },\r\n  \"asserter\" : {\r\n    \"reference\" : \"Patient?identifier=https%3A%2F%2Fwww.ehealth.fgov.be%2Fstandards%2Ffhir%2FNamingSystem%2Fssin%7C{{ssin1}}\"\r\n  },\r\n  \"reaction\" : [\r\n    {\r\n      \"manifestation\" : [\r\n        {\r\n          \"coding\" : [\r\n            {\r\n              \"system\" : \"http://snomed.info/sct\",\r\n              \"code\" : \"39579001\",\r\n              \"display\" : \"Anaphylactic reaction\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/AllergyIntolerance",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"AllergyIntolerance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search allergy by patient SSIN",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"pm.expect(responseJson.total).to.equal(1, \"Response should contain 1 resource\");\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/AllergyIntolerance?patient.identifier=https://www.ehealth.fgov.be/standards/fhir/NamingSystem/ssin|{{ssin1}}&code=http://snomed.info/sct|735215001",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"AllergyIntolerance"
+							],
+							"query": [
+								{
+									"key": "patient.identifier",
+									"value": "https://www.ehealth.fgov.be/standards/fhir/NamingSystem/ssin|{{ssin1}}"
+								},
+								{
+									"key": "code",
+									"value": "http://snomed.info/sct|735215001"
+								}
+							]
+						}
+					},
+					"response": []
+				}
 			]
 		}
 	]
