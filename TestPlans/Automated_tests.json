@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "58d4c6eb-803c-4287-a9c6-087c4efbb734",
+		"_postman_id": "8c0a02fc-f330-4e2e-9ac6-3398a9ee13c5",
 		"name": "Automated_tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -561,6 +561,58 @@
 									"key": "code",
 									"value": "http://snomed.info/sct|735215001"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "T003 - Create patient",
+			"item": [
+				{
+					"name": "Create test patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"if (jsonData.id !== null) { //pm.response.code == 201\r",
+									"    pm.environment.set('patient_id', jsonData.id);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\" : \"Patient\",\r\n  \"meta\" : {\r\n    \"profile\" : [\r\n      \"https://www.ehealth.fgov.be/standards/fhir/StructureDefinition/be-patient\"\r\n    ]\r\n  },\r\n  \"extension\" : [\r\n    {\r\n      \"url\" : \"http://hl7.org/fhir/StructureDefinition/patient-birthPlace\",\r\n      \"valueAddress\" : {\r\n        \"extension\" : [\r\n          {\r\n            \"url\" : \"http://hl7.org/fhir/StructureDefinition/language\",\r\n            \"valueCode\" : \"nl\"\r\n          }\r\n        ],\r\n        \"city\" : \"Namen\",\r\n        \"country\" : \"BE\"\r\n      }\r\n    },\r\n    {\r\n      \"url\" : \"http://hl7.org/fhir/StructureDefinition/patient-nationality\",\r\n      \"extension\" : [\r\n        {\r\n          \"url\" : \"code\",\r\n          \"valueCodeableConcept\" : {\r\n            \"coding\" : [\r\n              {\r\n                \"system\" : \"https://www.ehealth.fgov.be/standards/fhir/CodeSystem/cd-fed-country\",\r\n                \"code\" : \"BE\",\r\n                \"display\" : \"Belgium\"\r\n              }\r\n            ]\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"identifier\" : [\r\n    {\r\n      \"use\" : \"official\",\r\n      \"type\" : {\r\n        \"coding\" : [\r\n          {\r\n            \"system\" : \"http://terminology.hl7.org/CodeSystem/v2-0203\",\r\n            \"code\" : \"SB\",\r\n            \"display\" : \"Social Beneficiary Identifier\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\" : \"https://www.ehealth.fgov.be/standards/fhir/NamingSystem/ssin\",\r\n      \"value\" : \"79121137740\"\r\n    },\r\n    {\r\n      \"use\" : \"usual\",\r\n      \"type\" : {\r\n        \"coding\" : [\r\n          {\r\n            \"system\" : \"http://terminology.hl7.org/CodeSystem/v2-0203\",\r\n            \"code\" : \"MR\",\r\n            \"display\" : \"Medical record number\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\" : \"https://www.goodhealthhospital.be/standards/fhir/NamingSystem/patientrecord\",\r\n      \"value\" : \"45XXP0PA-4\"\r\n    }\r\n  ],\r\n  \"active\" : true,\r\n  \"name\" : [\r\n    {\r\n      \"use\" : \"official\",\r\n      \"family\" : \"La Paradisio\",\r\n      \"given\" : [\r\n        \"Josephine\",\r\n        \"Nessa\"\r\n      ]\r\n    }\r\n  ],\r\n  \"telecom\" : [\r\n    {\r\n      \"system\" : \"email\",\r\n      \"value\" : \"nessa.laparadisio@belgium.be\"\r\n    },\r\n    {\r\n      \"system\" : \"phone\",\r\n      \"value\" : \"+322476792979\",\r\n      \"use\" : \"mobile\"\r\n    },\r\n    {\r\n      \"system\" : \"phone\",\r\n      \"value\" : \"+3226718655\",\r\n      \"use\" : \"home\"\r\n    },\r\n    {\r\n      \"system\" : \"phone\",\r\n      \"value\" : \"+322476799\",\r\n      \"use\" : \"work\"\r\n    }\r\n  ],\r\n  \"gender\" : \"female\",\r\n  \"birthDate\" : \"1979-12-11\",\r\n  \"_birthDate\" : {\r\n    \"extension\" : [\r\n      {\r\n        \"url\" : \"http://hl7.org/fhir/StructureDefinition/patient-birthTime\",\r\n        \"valueDateTime\" : \"1979-12-11T13:28:17-05:00\"\r\n      }\r\n    ]\r\n  },\r\n  \"address\" : [\r\n    {\r\n      \"extension\" : [\r\n        {\r\n          \"url\" : \"http://hl7.org/fhir/StructureDefinition/language\",\r\n          \"valueCode\" : \"nl\"\r\n        }\r\n      ],\r\n      \"use\" : \"home\",\r\n      \"type\" : \"both\",\r\n      \"text\" : \"Sloordelle 42, 1160 Oudergem\",\r\n      \"line\" : [\r\n        \"Sloordelle 42\"\r\n      ],\r\n      \"_line\" : [\r\n        {\r\n          \"extension\" : [\r\n            {\r\n              \"url\" : \"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName\",\r\n              \"valueString\" : \"Sloordelle\"\r\n            },\r\n            {\r\n              \"url\" : \"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber\",\r\n              \"valueString\" : \"42\"\r\n            }\r\n          ]\r\n        }\r\n      ],\r\n      \"city\" : \"Oudergem\",\r\n      \"postalCode\" : \"1160\",\r\n      \"country\" : \"BE\"\r\n    },\r\n    {\r\n      \"extension\" : [\r\n        {\r\n          \"url\" : \"http://hl7.org/fhir/StructureDefinition/language\",\r\n          \"valueCode\" : \"fr\"\r\n        }\r\n      ],\r\n      \"use\" : \"home\",\r\n      \"type\" : \"both\",\r\n      \"text\" : \"42, Allee des Colzas, 1160 Auderghem\",\r\n      \"line\" : [\r\n        \"42, Allee des Colzas\"\r\n      ],\r\n      \"_line\" : [\r\n        {\r\n          \"extension\" : [\r\n            {\r\n              \"url\" : \"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName\",\r\n              \"valueString\" : \"Allee des Colzas\"\r\n            },\r\n            {\r\n              \"url\" : \"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber\",\r\n              \"valueString\" : \"42\"\r\n            }\r\n          ]\r\n        }\r\n      ],\r\n      \"city\" : \"Auderghem\",\r\n      \"postalCode\" : \"1160\",\r\n      \"country\" : \"BE\"\r\n    },\r\n    {\r\n      \"use\" : \"work\",\r\n      \"type\" : \"both\",\r\n      \"text\" : \"377, Avenue Prince d'Orange, 1420 Braine-lÊ¼Alleud\",\r\n      \"line\" : [\r\n        \"377, Avenue Prince d'Orange\"\r\n      ],\r\n      \"_line\" : [\r\n        {\r\n          \"extension\" : [\r\n            {\r\n              \"url\" : \"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName\",\r\n              \"valueString\" : \"Avenue Prince d'Orange\"\r\n            },\r\n            {\r\n              \"url\" : \"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber\",\r\n              \"valueString\" : \"377\"\r\n            }\r\n          ]\r\n        }\r\n      ],\r\n      \"city\" : \"Braine-lÊ¼Alleud\",\r\n      \"postalCode\" : \"1420\",\r\n      \"country\" : \"BE\"\r\n    }\r\n  ],\r\n  \"maritalStatus\" : {\r\n    \"coding\" : [\r\n      {\r\n        \"system\" : \"http://terminology.hl7.org/CodeSystem/v3-MaritalStatus\",\r\n        \"code\" : \"D\",\r\n        \"display\" : \"Divorced\"\r\n      },\r\n      {\r\n        \"system\" : \"https://www.ehealth.fgov.be/standards/fhir/CodeSystem/cd-civilstate\",\r\n        \"code\" : \"41\",\r\n        \"display\" : \"Divorced since 1/10/1994\"\r\n      }\r\n    ]\r\n  },\r\n  \"contact\" : [\r\n    {\r\n      \"relationship\" : [\r\n        {\r\n          \"coding\" : [\r\n            {\r\n              \"system\" : \"http://terminology.hl7.org/CodeSystem/v2-0131\",\r\n              \"code\" : \"N\",\r\n              \"display\" : \"Next-of-Kin\"\r\n            },\r\n            {\r\n              \"system\" : \"https://www.ehealth.fgov.be/standards/fhir/CodeSystem/cd-contact-person\",\r\n              \"code\" : \"mother\"\r\n            }\r\n          ]\r\n        }\r\n      ],\r\n      \"name\" : {\r\n        \"family\" : \"Vogels\",\r\n        \"given\" : [\r\n          \"Leia\"\r\n        ]\r\n      },\r\n      \"telecom\" : [\r\n        {\r\n          \"system\" : \"phone\",\r\n          \"value\" : \"+31201234567\",\r\n          \"use\" : \"mobile\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"generalPractitioner\" : [\r\n    {\r\n      \"reference\" : \"Practitioner/{{practitioner_id}}\"\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{vitalinkFhirBaseServerUrl}}/Patient",
+							"host": [
+								"{{vitalinkFhirBaseServerUrl}}"
+							],
+							"path": [
+								"Patient"
 							]
 						}
 					},
