@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4b7f0e5e-4508-44b4-bc82-30a76a73a880",
+		"_postman_id": "af2e27e7-e954-4936-87c9-f512fc66cd58",
 		"name": "Automated_tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -569,6 +569,97 @@
 			]
 		},
 		{
+			"name": "T004",
+			"item": [
+				{
+					"name": "01 POST BeAllergyIntolerance -- simple identifier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST AllergyIntolerance using identifier -- simple\", function(){\r",
+									"    pm.expect(pm.response.code).to.equal(201, \"Response status is not 201\");\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.resourceType).to.equal(\"AllergyIntolerance\");\r",
+									"    pm.environment.set(\"allergy_id\", responseJson.id);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function randomSSIN(){\r",
+									"    var start = new Date(1900, 0, 1);\r",
+									"    var dob = new Date(start.getTime() + Math.random() * (new Date().getTime() - start.getTime()));\r",
+									"    var dobstring = dob.toISOString().substr(2, 8).replace(\"-\",\"\").replace(\"-\",\"\");\r",
+									"    var counter = Math.random().toString().slice(2,5);\r",
+									"    var base = dobstring + counter;\r",
+									"    if (dob.getFullYear() >= 2000){\r",
+									"        base = 2 + base;\r",
+									"    }\r",
+									"    var controle = 97 - parseInt(base) % 97\r",
+									"    var ssin = dobstring + counter + controle; \r",
+									"    return ssin;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ssin1\", randomSSIN());\r",
+									"pm.environment.set(\"ssin2\", randomSSIN());\r",
+									"\r",
+									"var timestring = new Date().toISOString().substring(0,23)+\"+00:00\"\r",
+									"pm.environment.set(\"timestamp\", timestring);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cache-Control",
+								"value": "no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\" : \"AllergyIntolerance\",\r\n  \"meta\" : {\r\n    \"profile\" : [\r\n      \"https://www.ehealth.fgov.be/standards/fhir/StructureDefinition/be-allergyintolerance\"\r\n    ]\r\n  },\r\n  \"clinicalStatus\" : {\r\n    \"coding\" : [\r\n      {\r\n        \"system\" : \"http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical\",\r\n        \"code\" : \"active\",\r\n        \"display\" : \"Active\"\r\n      }\r\n    ]\r\n  },\r\n  \"verificationStatus\" : {\r\n    \"coding\" : [\r\n      {\r\n        \"system\" : \"http://terminology.hl7.org/CodeSystem/allergyintolerance-verification\",\r\n        \"code\" : \"confirmed\"\r\n      }\r\n    ]\r\n  },\r\n  \"type\" : \"allergy\",\r\n  \"category\" : [\r\n    \"food\"\r\n  ],\r\n  \"code\" : {\r\n    \"coding\" : [\r\n      {\r\n        \"system\" : \"http://snomed.info/sct\",\r\n        \"code\" : \"278840001\",\r\n        \"display\" : \"Shrimp (substance)\"\r\n      }\r\n    ],\r\n    \"text\" : \"Allergic to shrimp\"\r\n  },\r\n  \"patient\" : {\r\n    \"identifier\": {\r\n      \"system\": \"https://www.ehealth.fgov.be/standards/fhir/NamingSystem/ssin\",\r\n      \"value\": \"{{ssin1}}\"\r\n    }\r\n  },\r\n  \"recordedDate\" : \"{{timestamp}}\",\r\n  \"recorder\" : {\r\n    \"identifier\": {\r\n      \"system\": \"https://www.ehealth.fgov.be/standards/fhir/NamingSystem/ssin\",\r\n      \"value\": \"{{ssin2}}\"\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/AllergyIntolerance",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"AllergyIntolerance"
+							]
+						},
+						"description": "# Request\nA simple BeAllergyIntolerance is uploaded to the FHIR server.\n# Expected result\n201 Created\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "T003 - Create patient",
 			"item": [
 				{
@@ -618,6 +709,55 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest({",
+					"  url:  pm.variables.get(\"iam-host\")+\"/protocol/openid-connect/token\", ",
+					"  method: 'POST',",
+					"  header: {",
+					"    'Accept': 'application/json',",
+					"    'Content-Type': 'application/x-www-form-urlencoded'",
+					"  },",
+					"  body: {",
+					"      mode: 'urlencoded',",
+					"      urlencoded: [",
+					"        {key: \"grant_type\", value: \"password\", disabled: false},",
+					"        {key: \"username\", value: \"imec-physician1\", disabled: false},",
+					"        {key: \"password\", value: \"physician1-imec\", disabled: false},",
+					"        {key: \"client_secret\", value: pm.environment.get(\"client_secret\"), disabled: false},",
+					"        {key: \"client_id\", value: pm.environment.get(\"client_id\"), disabled: false}",
+					"    ]",
+					"  }",
+					"}, function (err, res) {",
+					"    pm.environment.set(\"token\", res.json().access_token);",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
